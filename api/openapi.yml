@@ -1,0 +1,781 @@
+openapi: 3.0.0
+info: 
+  title: "Beauty Product API"
+  version: "1.0"
+paths:
+  /accounts:
+    post:
+      summary: Create a User Account
+      tags:
+        - Accounts
+      requestBody:
+        $ref: '#/components/requestBodies/Account'
+      responses:
+        201:
+          description: Account Created
+          headers:
+            Location:
+              schema:
+                type: string
+        409:
+          description: Duplicate Account informaiton
+        500:
+          description: Internal Sever Error
+  /accounts/{username}:
+    parameters:
+        - $ref: '#/components/parameters/PathUsername'
+    delete:
+      summary: Delete a User Account
+      tags:
+        - Accounts
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: Deleted 
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        500: 
+          description: Internal Server Error
+    get:
+      summary: Get User Account Info
+      tags:
+        - Accounts
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+    put:
+      summary: Change username, password, or email
+      tags:
+        - Accounts
+      requestBody:
+        $ref: '#/components/requestBodies/Account'
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        500:
+          description: Internal Server Error
+  /auth:
+    put:
+      summary: Authenticate
+      tags:
+        - Authentication
+      requestBody:
+        $ref: '#/components/requestBodies/Account'
+      responses:
+        200:
+          description: Success
+          content:
+            text/plain:
+              schema:
+                description: JWT
+                type: string
+        401:
+          description: Unathorized
+        500:
+          description: Internal Server Error
+  /collections:
+    post:
+      x-controller: collections
+      x-operation: createCollection
+      summary: Create collection
+      tags:
+        - Collections
+      requestBody:
+        $ref: '#/components/requestBodies/Collection'
+      security:
+        - Bearer: []
+      responses:
+        201:
+          description: Collection Created
+          headers:
+            Location:
+              schema:
+                type: string
+        500:
+          description: Internal Sever Error
+    get:
+      x-controller: collections
+      x-operation: getCollection
+      summary: Get All Collections
+      tags:
+        - Collections
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Collection'
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+  /prodcuts:
+    post:
+      summary: Create prodcut
+      x-controller: products
+      x-operation: creatProduct
+      tags:
+        - Products
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/Product'
+      responses:
+        201:
+          description: Product Created
+          headers:
+            Location:
+              schema:
+                type: string
+        500:
+          description: Internal Sever Error
+  /collections/{collection_id}:
+    parameters:
+      - $ref: '#/components/parameters/CollectionId'
+    get:
+      x-controller: collections
+      x-operation: getOneCollection
+      summary: Get one Collection
+      tags:
+        - Collections
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+    put:
+      x-controller: collections
+      x-operation: renameCollection
+      summary: Rename Collection
+      tags:
+        - Collections
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/Collection'
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+    delete:
+      summary: Delete Collection
+      tags:
+        - Collections
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: Deleted
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+  /collections/{collection_id}/item:
+    parameters:
+      - $ref: '#/components/parameters/CollectionId'
+    post:
+      summary: Create Item for Collection
+      tags:
+        - Collections
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/Item'
+      responses:
+        201:
+          description: Item Created
+          headers:
+            Location:
+              schema:
+                type: string
+        500:
+          description: Internal Sever Error
+    delete:
+      summary: Delete Item from Collection
+      tags:
+        - Collections
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: Deleted
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+  /collections/{collection_id}/product:
+    parameters:
+      - $ref: '#/components/parameters/CollectionId'
+    post:
+      summary: Create Item from Product for Collection
+      tags:
+        - Collections
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/Item'
+      responses:
+        201:
+          description: Item Created
+          headers:
+            Location:
+              schema:
+                type: string
+        500:
+          description: Internal Sever Error
+  /products/{product_id}:
+    parameters:
+      - $ref: '#/components/parameters/ProductId'
+    get:
+      summary: Get a Product
+      tags:
+        - Products
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+    delete:
+      summary: Delete product
+      tags:
+        - Products
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: Deleted 
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        500: 
+          description: Internal Server Error
+    put:
+      summary: Update product info
+      tags:
+        - Products
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/Product'
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        404:
+          description: Product Not Found
+        500:
+          description: Internal Server Error
+  /items/{item_id}:
+    parameters:
+          - $ref: '#/components/parameters/ItemId'
+    get:
+      summary: Get an Item
+      tags:
+        - Items
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+    delete:
+      summary: Delete Item
+      tags:
+        - Items
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: Deleted Item
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        500: 
+          description: Internal Server Error
+    put:
+      summary: Update Item Info
+      tags:
+        - Items
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/Item'
+      responses:
+        200:
+          description: Success Item Updated
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        404:
+          description: Product Not Found
+        500:
+          description: Internal Server Error
+  /products/{product_id}/upload:
+    parameters:
+      - $ref: '#/components/parameters/ProductId'
+    post:
+      summary: Upload product picture
+      tags:
+        - Product Pictures
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          image/jpeg:
+              schema:
+                type: string
+                format: binary
+          image/png:
+              schema:
+                type: string
+                format: binary
+      responses:
+        201:
+          description: Product Picture Uploaded
+          headers:
+            Location:
+              schema:
+                type: string
+        409:
+          description: Duplicate Product Picture
+        500:
+          description: Internal Sever Error
+  /items/{item_id}/upload:
+    parameters:
+        - $ref: '#/components/parameters/ItemId'
+    post:
+      summary: Upload item picture
+      tags:
+        - Item Pictures
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          image/jpeg:
+              schema:
+                type: string
+                format: binary
+          image/png:
+              schema:
+                type: string
+                format: binary
+      responses:
+        201:
+          description: Item Picture Uploaded
+          headers:
+            Location:
+              schema:
+                type: string
+        409:
+          description: Duplicate Item Picture
+        500:
+          description: Internal Sever Error
+  /products/{product_id}/picture:
+    parameters:
+        - $ref: '#/components/parameters/ProductId'
+    delete:
+      summary: Delete Picture from Product
+      tags:
+        - Products
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: Deleted Item Picture
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        500: 
+          description: Internal Server Error
+    put:
+      summary: Add Picture to Product
+      tags:
+        - Products
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/ProductPicture'
+      responses:
+        200:
+          description: Success Item Updated
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        404:
+          description: Product Not Found
+        500:
+          description: Internal Server Error
+  /items/{item_id}/picture:
+    parameters:
+        - $ref: '#/components/parameters/ItemId'
+    delete:
+      summary: Delete Picture from Item
+      tags:
+        - Items
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: Deleted Item Picture
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        500: 
+          description: Internal Server Error
+    put:
+      summary: Add Picture to Item
+      tags:
+        - Items
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/ItemPicture'
+      responses:
+        200:
+          description: Success Item Updated
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        404:
+          description: Product Not Found
+        500:
+          description: Internal Server Error
+  /pictures/{pic_id}:
+    parameters:
+      - $ref: '#/components/parameters/ProductPicId'
+    delete:
+      summary: Delete Product Picture from Server
+      tags:
+        - Product Pictures
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: Deleted Product Picture
+        401:
+          description: Unauthorized Action
+        403:
+          description: Forbidden Action
+        500: 
+          description: Internal Server Error
+    get:
+      summary: View Product Picture
+      tags:
+        - Product Pictures
+      responses:
+        200:
+          description: Success
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+                schema:
+                  type: string
+                  format: binary
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+      
+components:
+  parameters:
+    PathUsername:
+      name: username
+      in: path
+      required: true
+      schema:
+        type: string
+    ProductId:
+      name: product_id
+      in: path
+      required: true
+      schema:
+        type: string
+    ItemId:
+      name: item_id
+      in: path
+      required: true
+      schema:
+        type: string
+    CollectionId:
+      name: collection_id
+      in: path
+      required: true
+      schema:
+        type: string
+    ProductPicId:
+      name: pic_id
+      in: path
+      required: true
+      schema:
+        type: string
+    ItemPicId:
+      name: pic_id
+      in: path
+      required: true
+      schema:
+        type: string
+        
+  requestBodies:
+    Account:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Account'
+    Collection:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Collection'
+    Product:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+    ProductPicture:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductPicture'
+    Item:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Item'
+    ItemPicture:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ItemPicture'
+            
+  schemas:
+    Account:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        email:
+          type: string
+        collections:
+          type: array
+          readOnly: true
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Collection'
+    Collection:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        accountId:
+          type: string
+          readOnly: true
+        items:
+          type: array
+          nullable: true
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/Item'
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        price:
+          type: number
+          nullable: true
+        category:
+          type: string
+        prod_type:
+          type: string
+          nullable: true
+        shades:
+          type: array
+          nullable: true
+          items:
+           type: string
+        description:
+          type: string
+          nullable: true
+        brand:
+          type: string
+          nullable: true
+        ingredients:
+          type: array
+          nullable: true
+          items:
+            type: string
+        pictures:
+          type: array
+          nullable: true
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/ProductPicture'
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        collection_id: 
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+          nullable: true
+        category:
+          type: string
+        item_type:
+          type: string
+          nullable: true
+        shade:
+          type: string
+          nullable: true
+        color:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        brand:
+          type: string
+          nullable: true
+        ingredients:
+          type: array
+          items:
+            type: string
+          nullable: true
+        open_date:
+          type: string
+          nullable: true
+        expire_period:
+          type: integer
+          nullable: true
+        pictures:
+          type: array
+          nullable: true
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/ItemPicture'
+    ProductPicture:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        mime_type:
+          type: string
+        filepath:
+          type: string
+    ItemPicture:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        mime_type:
+          type: string
+        filepath:
+          type: string
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
