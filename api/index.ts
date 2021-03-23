@@ -2,6 +2,8 @@ import Enforcer from 'openapi-enforcer'
 import EnforcerMiddleware from 'openapi-enforcer-middleware'
 import express from 'express'
 import path from 'path'
+import jwt from 'jsonwebtoken'
+
 
 // Create express instance
 const app = express()

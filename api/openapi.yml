@@ -5,6 +5,8 @@ info:
 paths:
   /accounts:
     post:
+      x-controller: accounts
+      x-operation: createAccount
       summary: Create a User Account
       tags:
         - Accounts
@@ -25,6 +27,8 @@ paths:
     parameters:
         - $ref: '#/components/parameters/PathUsername'
     delete:
+      x-controller: accounts
+      x-operation: deleteAccount
       summary: Delete a User Account
       tags:
         - Accounts
@@ -40,6 +44,8 @@ paths:
         500: 
           description: Internal Server Error
     get:
+      x-controller: accounts
+      x-operation: getAccount
       summary: Get User Account Info
       tags:
         - Accounts
@@ -53,6 +59,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Account'
     put:
+      x-controller: accounts
+      x-operation: updateAccount
       summary: Change username, password, or email
       tags:
         - Accounts
@@ -71,6 +79,8 @@ paths:
           description: Internal Server Error
   /auth:
     put:
+      x-controller: authentication
+      x-operation: authenticate
       summary: Authenticate
       tags:
         - Authentication
@@ -88,6 +98,21 @@ paths:
           description: Unathorized
         500:
           description: Internal Server Error
+  /logout:
+    put:
+      x-controller: authentication
+      x-operation: logout
+      summary: Logout of authentication
+      tags:
+        - Authentication
+      requestBody:
+        $ref: '#/components/requestBodies/Account'
+      responses:
+        200:
+          description: Success
+        500:
+          description: Internal Server Error
+
   /collections:
     post:
       x-controller: collections
@@ -133,11 +158,11 @@ paths:
           description: Not found
         500:
           description: Internal Server Error
-  /prodcuts:
+  /products:
     post:
       summary: Create prodcut
       x-controller: products
-      x-operation: creatProduct
+      x-operation: createProduct
       tags:
         - Products
       security:
@@ -275,6 +300,8 @@ paths:
       - $ref: '#/components/parameters/ProductId'
     get:
       summary: Get a Product
+      x-controller: products
+      x-operation: getProduct
       tags:
         - Products
       responses:
@@ -294,6 +321,8 @@ paths:
           description: Internal Server Error
     delete:
       summary: Delete product
+      x-controller: products
+      x-operation: deleteProduct
       tags:
         - Products
       security:
@@ -309,6 +338,8 @@ paths:
           description: Internal Server Error
     put:
       summary: Update product info
+      x-controller: products
+      x-operation: updateProduct
       tags:
         - Products
       security:
