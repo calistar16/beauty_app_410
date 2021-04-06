@@ -3,6 +3,7 @@ import EnforcerMiddleware from 'openapi-enforcer-middleware'
 import express from 'express'
 import path from 'path'
 import jwt from 'jsonwebtoken'
+import authentication from './controllers/authentication'
 
 
 // Create express instance
@@ -17,6 +18,11 @@ app.use((req, res, next) => {
 // Add Body Parser
 app.use(express.json())
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  next()
+})
+
 // Any paths defined in your openapi.yml will validate and parse the request
 // before it calls your route code.
 const openapiPath = path.resolve(__dirname, 'openapi.yml')
@@ -29,8 +35,20 @@ enforcerMiddleware.on('error', (err: Error) => {
   // process.exit(1)
 }) 
 
-const controllersPath = path.resolve(__dirname, 'controllers')
-app.use(enforcerMiddleware.route(controllersPath))
+// Manually specify the baseURL
+//app.use(enforcerMiddleware.init({ baseUrl: '/api' }))
+// Here we use an object in the router with imports instead of a file path to the controllers directory.
+app.use(enforcerMiddleware.route({
+  accounts: import('./controllers/accounts'),
+  collections: import('./controllers/collections'),
+  products: import('./controllers/products'),
+  authentication: import('./controllers/authentication'),
+  items: import('./controllers/items'),
+  pictures: import('./controllers/pictures')
+}))
+
+// const controllersPath = path.resolve(__dirname, 'controllers')
+// app.use(enforcerMiddleware.route(controllersPath))
 
 // Export express app
 module.exports = app

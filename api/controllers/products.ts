@@ -28,7 +28,8 @@ export default function () {
           console.log(err, resp)
           const product = resp.rows[0]
           res.status(200)
-          res.send({"Product": product})
+          console.log(product)
+          res.send(product)
         })
       // }
       // else {
@@ -64,6 +65,18 @@ export default function () {
         const update = "Product " + req.body.prod_name + " updated to [" + values + "]"
         res.send({'Message': update})
       })
+    },
+    async uploadProduct (req: express.Request, res: express.Response) {
+      res.status(200)
+      res.send({'Message': "upload product"})
+    },
+    async deletePicture (req: express.Request, res: express.Response) {
+      res.status(200)
+      res.send({'Message': "delete picture"})
+    },
+    async updatePicture (req: express.Request, res: express.Response) {
+      res.status(200)
+      res.send({'Message': "updatePicture"})
     }
   }
 }

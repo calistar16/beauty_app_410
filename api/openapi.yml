@@ -226,6 +226,8 @@ paths:
         500:
           description: Internal Server Error
     delete:
+      x-controller: collections
+      x-operation: deleteCollection
       summary: Delete Collection
       tags:
         - Collections
@@ -244,6 +246,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/CollectionId'
     post:
+      x-controller: collections
+      x-operation: collectionItem
       summary: Create Item for Collection
       tags:
         - Collections
@@ -261,6 +265,8 @@ paths:
         500:
           description: Internal Sever Error
     delete:
+      x-controller: collections
+      x-operation: deleteItemCollection
       summary: Delete Item from Collection
       tags:
         - Collections
@@ -279,6 +285,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/CollectionId'
     post:
+      x-controller: collections
+      x-operation: collectionProduct
       summary: Create Item from Product for Collection
       tags:
         - Collections
@@ -359,8 +367,10 @@ paths:
           description: Internal Server Error
   /items/{item_id}:
     parameters:
-          - $ref: '#/components/parameters/ItemId'
+      - $ref: '#/components/parameters/ItemId'
     get:
+      x-controller: items
+      x-operation: newItem
       summary: Get an Item
       tags:
         - Items
@@ -382,6 +392,8 @@ paths:
         500:
           description: Internal Server Error
     delete:
+      x-controller: items
+      x-operation: deleteItem
       summary: Delete Item
       tags:
         - Items
@@ -397,6 +409,8 @@ paths:
         500: 
           description: Internal Server Error
     put:
+      x-controller: items
+      x-operation: updateItem
       summary: Update Item Info
       tags:
         - Items
@@ -419,6 +433,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProductId'
     post:
+      x-controller: products
+      x-operation: uploadProduct
       summary: Upload product picture
       tags:
         - Product Pictures
@@ -449,6 +465,8 @@ paths:
     parameters:
         - $ref: '#/components/parameters/ItemId'
     post:
+      x-controller: items
+      x-operation: uploadPicture
       summary: Upload item picture
       tags:
         - Item Pictures
@@ -477,8 +495,10 @@ paths:
           description: Internal Sever Error
   /products/{product_id}/picture:
     parameters:
-        - $ref: '#/components/parameters/ProductId'
+      - $ref: '#/components/parameters/ProductId'
     delete:
+      x-controller: products
+      x-operation: deletePicture
       summary: Delete Picture from Product
       tags:
         - Products
@@ -494,6 +514,8 @@ paths:
         500: 
           description: Internal Server Error
     put:
+      x-controller: products
+      x-operation: updatePicture
       summary: Add Picture to Product
       tags:
         - Products
@@ -514,8 +536,10 @@ paths:
           description: Internal Server Error
   /items/{item_id}/picture:
     parameters:
-        - $ref: '#/components/parameters/ItemId'
+      - $ref: '#/components/parameters/ItemId'
     delete:
+      x-controller: items
+      x-operation: deletePicture
       summary: Delete Picture from Item
       tags:
         - Items
@@ -531,6 +555,8 @@ paths:
         500: 
           description: Internal Server Error
     put:
+      x-controller: items
+      x-operation: updatePicture
       summary: Add Picture to Item
       tags:
         - Items
@@ -553,6 +579,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProductPicId'
     delete:
+      x-controller: pictures
+      x-operation: deletePictures
       summary: Delete Product Picture from Server
       tags:
         - Product Pictures
@@ -568,6 +596,8 @@ paths:
         500: 
           description: Internal Server Error
     get:
+      x-controller: pictures
+      x-operation: getPicture
       summary: View Product Picture
       tags:
         - Product Pictures

@@ -26,10 +26,10 @@ export default function () {
           // sign and encode
           const token = jwt.sign({
             username: req.body.username,
-            admin: false
+            user_id: user.user_id,
+            admin: user.admin,
           }, secret, { expiresIn: '10m' })
-          res.header("Authentication", [token])
-          res.json({token})
+          res.json({'token': token, 'username': req.body.username, 'user_id': user.user_id, 'email': user.email, 'admin': user.admin})
         }
         else {
           res.send({"Message": "Username or password incorrect"})

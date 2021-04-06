@@ -27,7 +27,7 @@ export default {
         views: [
         {
           name: "New Product",
-          link: "/products/newProduct",
+          link: "/products/new_product",
         },
         {
           name: "Create Collection",
