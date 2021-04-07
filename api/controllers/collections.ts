@@ -28,7 +28,7 @@ export default function () {
       var values = [req.body.name, req.body.user_id]
       pool.query(query, values, (err: any, resp: any) => {
         console.log(err, resp)
-        res.send()
+        res.send("Collection " + req.body.name + " created")
       })
     },
     async getOneCollection (req: express.Request, res: express.Response) {

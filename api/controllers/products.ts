@@ -14,14 +14,6 @@ const pool = new Pool({
 export default function () {
   return {
     async getProduct (req: express.Request, res: express.Response) {
-      //const token = req.headers.authorization;
-      // if (token) {
-      //   try {
-      //     const decoded = await jwt.verify(token, secret)
-      //   } catch (e) {
-      //     res.status(500)
-      //     res.send("Expired Authorization")
-      //   }
         const query = 'SELECT * FROM products WHERE prod_id=($1);'
         const values = [req.path.slice(10)]
         pool.query(query, values, (err: any, resp: any) => {
@@ -31,11 +23,6 @@ export default function () {
           console.log(product)
           res.send(product)
         })
-      // }
-      // else {
-      //   res.status(401)
-      //   res.send("Unauthorized")
-      // }
     },
     async createProduct (req: express.Request, res: express.Response) {
       res.status(201)

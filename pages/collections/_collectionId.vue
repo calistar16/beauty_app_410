@@ -3,8 +3,7 @@
       <navbar></navbar>
       <h3>{{name}}</h3>
     <collectionitem v-for="item in items" :key="item" :itemId="item"></collectionitem>
-    <button @click="edit()">Edit</button>
-    <button @click="save()">Save</button>
+    <button @click="newItem()">Add New Item</button>
   </div>
 </template>
 
@@ -40,18 +39,12 @@ export default Vue.extend({
         this.items = collection.items;
         console.log('done');
       },
+      newItem() {
+
+      },
       updateCollection() {
           if (confirm("Are you sure you want to update a collection?")) {
-          let body;
-          body = {
-              name: this.name,
-              id: this.id,
-              user_id: this.user_id,
-              items: this.items,
-          };
-          console.log(body);
-          this.$store.dispatch('collections/updateCollection', body);
-          this.toggleEdit();
+            return "TBD"
           }
       },
       toggleEdit() {

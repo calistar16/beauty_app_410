@@ -15,34 +15,34 @@ const pool = new Pool({
 export default function () {
   return {
     async getAccount (req: express.Request, res: express.Response) {
-      const token = req.headers.authorization;
-      res.header('Access-Control-Allow-Origin', '*');
-      if (token) {
-          try {
-            const decoded = await jwt.verify(token, secret)
+    //   const token = req.headers.authorization;
+    //   res.header('Access-Control-Allow-Origin', '*');
+    //   if (token) {
+    //       try {
+            //const decoded = await jwt.verify(token, secret)
             const query = 'SELECT * FROM users WHERE username=($1);'
             const values = [req.path.slice(10)]
-            if (values[0] === decoded.username || decoded.admin) {
+            //if (values[0] === decoded.username || decoded.admin) {
               pool.query(query, values, (err: any, resp: any) => {
                 console.log(err, resp)
                 const user = resp.rows[0]
                 res.status(200)
                 res.send({"Username": user['username'], "Email": user['email']})
               })
-            }
-            else {
-              res.status(401)
-              res.send({"Message" : "Get Unauthorized"})
-            }
-          } catch (e) {
-            res.status(500)
-            res.send("Expired Authorization")
-          }
-      }
-      else {
-        res.status(401)
-        res.send({"Message" : "Route Unauthorized"})
-      }
+            //}
+            // else {
+            //   res.status(401)
+            //   res.send({"Message" : "Get Unauthorized"})
+            // }
+      //     } catch (e) {
+      //       res.status(500)
+      //       res.send("Expired Authorization")
+      //     }
+      // }
+      // else {
+      //   res.status(401)
+      //   res.send({"Message" : "Route Unauthorized"})
+      // }
     },
     async createAccount (req: express.Request, res: express.Response) {
       res.status(201)

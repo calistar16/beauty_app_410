@@ -11,11 +11,6 @@ const app = express()
 
 app.use(cors())
 
-// app.use(function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*')
-//   next()
-// })
-
 // Create a simple logging middleware
 app.use((req, res, next) => {
   console.log(req.method.toUpperCase() + ' ' + req.path)

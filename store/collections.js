@@ -42,9 +42,7 @@ export const actions = {
             method: "POST",
             body: JSON.stringify({
                 name: new_body.name,
-                id: new_body.id,
-                user_id: new_body.user_id,
-                items: new_body.items, 
+                user_id: new_body.username
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
@@ -56,7 +54,6 @@ export const actions = {
             .then((json) => {
                 console.log(json);
                 mutations.setCollection(this, json)
-                //window.location.reload(true);
                 return {
                     errorExists: false,
                     errorText: '',
