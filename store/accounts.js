@@ -1,11 +1,9 @@
-import { json } from 'express'
-
 export const state = () => ({
-    username = "",
-    user_id = "",
-    token = "",
-    email = "",
-    admin = false
+    username: "",
+    user_id: "",
+    token: "",
+    email: "",
+    admin: false
 })
 
 export const getters = {
@@ -17,6 +15,9 @@ export const getters = {
     },
     active_userid() {
         return state.user_id
+    },
+    active_admin() {
+        return state.admin
     }
 }
 
@@ -25,13 +26,13 @@ export const mutations = {
         state.token = t
     },
     setLogin(state, json) {
-        console.log("SET ME");
-        console.log(state);
+        console.log("Login Info Set");
         state.user_id = json.user_id
         state.username = json.username
         state.token = json.token
         state.email = json.email
         state.admin = json.admin
+        console.log(state);
     },
     clearLogin(state) {
         state.user_id = ""
@@ -43,10 +44,10 @@ export const mutations = {
 }
 
 export const actions = {
-    authenticate(state, new_body) {
+    authenticate({ dispatch }, new_body) {
         console.log(new_body)
         const result = fetch("http://127.0.0.1:3001/auth", {
-            method: "PUT",
+            method: "POST",
             body: JSON.stringify({
                 username: new_body.username,
                 password: new_body.password, 
@@ -56,20 +57,11 @@ export const actions = {
             },
         })
             .then((res) => {
-                if (res.json.token !== undefined) {
-                    mutations.setLogin(this, json)
-                    return res.json()
-                }
-                else {
-                    return "Authentication undefined"
-                }
+                console.log(res);
+                return res
             })
             .then((json) => {
                 console.log(json);
-                return {
-                    errorExists: false,
-                    errorText: '',
-                }
             })
             .catch((err) => {
                 return {
@@ -161,17 +153,11 @@ export const actions = {
             },
         })
             .then((res) => {
+                console.log(res.json())
+                console.log(res)
                 return res.json();
             })
             .then((json) => {
-                if (!json.success) {
-                    return {
-                        errorExists: true,
-                        errorText: json.message
-                    }
-                }
-                mutations.setCollection(this, {name: json.name, category: json.category, price: json.price, prod_type: json.prod_type, shades: json.shades, description: json.description, brand: json.brand, ingredients: json.ingredeints })
-                //window.location.reload(true);
                 return {
                     errorExists: false,
                     errorText: '',

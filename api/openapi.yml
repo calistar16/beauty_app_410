@@ -78,7 +78,7 @@ paths:
         500:
           description: Internal Server Error
   /auth:
-    put:
+    post:
       x-controller: authentication
       x-operation: authenticate
       summary: Authenticate

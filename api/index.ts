@@ -4,10 +4,17 @@ import express from 'express'
 import path from 'path'
 import jwt from 'jsonwebtoken'
 import authentication from './controllers/authentication'
-
+import cors from 'cors'
 
 // Create express instance
 const app = express()
+
+app.use(cors())
+
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*')
+//   next()
+// })
 
 // Create a simple logging middleware
 app.use((req, res, next) => {
@@ -17,11 +24,6 @@ app.use((req, res, next) => {
 
 // Add Body Parser
 app.use(express.json())
-
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*')
-  next()
-})
 
 // Any paths defined in your openapi.yml will validate and parse the request
 // before it calls your route code.
@@ -38,6 +40,7 @@ enforcerMiddleware.on('error', (err: Error) => {
 // Manually specify the baseURL
 //app.use(enforcerMiddleware.init({ baseUrl: '/api' }))
 // Here we use an object in the router with imports instead of a file path to the controllers directory.
+
 app.use(enforcerMiddleware.route({
   accounts: import('./controllers/accounts'),
   collections: import('./controllers/collections'),

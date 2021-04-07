@@ -79,10 +79,11 @@ export default Vue.extend({
         this.description = product.description
         console.log('done');
       },
-      updateProduct() {
+      async updateProduct() {
           if (confirm("Are you sure you want to create a product?")) {
           let body;
           body = {
+              product_id: this.$route.params.productId,
               name: this.name,
               price: this.price,
               category: this.category,
@@ -93,7 +94,7 @@ export default Vue.extend({
               ingredients: this.ingredients
           };
           console.log(body);
-          this.$store.dispatch('products/updateProduct', body);
+          const result = await this.$store.dispatch('products/updateProduct', body);
           this.toggleEdit();
           }
       },

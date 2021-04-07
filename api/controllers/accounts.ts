@@ -16,6 +16,7 @@ export default function () {
   return {
     async getAccount (req: express.Request, res: express.Response) {
       const token = req.headers.authorization;
+      res.header('Access-Control-Allow-Origin', '*');
       if (token) {
           try {
             const decoded = await jwt.verify(token, secret)
